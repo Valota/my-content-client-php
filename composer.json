@@ -1,0 +1,39 @@
+{
+  "name": "valota/my-content-client",
+  "description": "A PHP client for Valotalive digital signage My Content API.",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "authors": [
+	{
+	  "name": "Jukka Korpelainen",
+	  "email": "jukka@valota.live"
+	},
+	{
+	  "name": "Mikko Korpelainen",
+	  "email": "mikko@valota.live"
+	}
+  ],
+  "autoload": {
+	"psr-4": {
+	  "Valota\\": "src/"
+	}
+  },
+  "autoload-dev": {
+	"psr-4": {
+	  "Valota\\": "tests/"
+	}
+  },
+  "require": {
+	"php": ">=7.1",
+	"guzzlehttp/guzzle": "~6.0",
+	"ext-json": "*",
+	"ext-fileinfo": "*"
+  },
+  "require-dev": {
+	"phpunit/phpunit": "^9.5",
+	"joshtronic/php-loremipsum": "dev-master"
+  },
+  "scripts": {
+	"test": "phpunit tests"
+  }
+}
