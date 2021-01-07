@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Suggest an improvement for My Content PHP client
 title: "[Feature Request] "
 labels: enhancement
 assignees: ''
