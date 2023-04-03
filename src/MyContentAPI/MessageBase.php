@@ -19,11 +19,22 @@ abstract class MessageBase {
 
 	private $message = '';
 
+	/**
+	 * @var int
+	 * @deprecated since version 1.1.0
+	 */
 	private $durationFrom = -1;
 
+	/**
+	 * @var int
+	 * @deprecated since version 1.1.0
+	 */
 	private $durationTo = -1;
 
 	private $displayTime = -1;
+
+	public $schedule = [];
+	public $scheduleIsSet = false;
 
 	public $pages = [];
 
@@ -71,7 +82,7 @@ abstract class MessageBase {
 	 */
 	public function setMessage(string $message): self {
 		$this->messageEdited = true;
-		if(!$message) {
+		if (!$message) {
 			$this->message = "";
 		} else {
 			$isEmpty = trim(strip_tags($message)) ? false : true;
@@ -86,20 +97,47 @@ abstract class MessageBase {
 		return $this;
 	}
 
+
+	public function getSchedule(): array {
+		return $this->schedule;
+	}
+
+
+	/**
+	 * Set schedule
+	 * @param array $schedule array of ['from'=>int, 'to' => int] e.g. [['from'=>1901453672, 'to' => 1901453783],...]
+	 *
+	 * @return $this
+	 * @throws \Exception if missing from and to from one of the elements
+	 */
+	public function setSchedule(array $schedule): self {
+		foreach($schedule as $sch) {
+			if((!isset($sch['from']) || !$sch['from'])&&  (!isset($sch['to']) || !$sch['to']) ) {
+				throw new \Exception('setSchedule objects needs at least from or to.');
+			}
+		}
+		$this->schedule = $schedule;
+		$this->scheduleIsSet = true;
+		return $this;
+	}
+
 	/**
 	 * @return int
+	 * @deprecated since version 1.1.0
 	 */
-	public function getDurationFrom():int {
+	public function getDurationFrom(): int {
 		return $this->durationFrom;
 	}
 
 	/**
 	 * @param int $durationFrom unix epoch, use 0 to unset
+	 *
+	 * @deprecated since version 1.1.0
 	 */
 	public function setDurationFrom(int $durationFrom): self {
-		if($durationFrom === 0) {
+		if ($durationFrom === 0) {
 			$this->durationFrom = 0;
-		} else if($durationFrom > 0) {
+		} else if ($durationFrom > 0) {
 			$this->durationFrom = $durationFrom;
 		}
 
@@ -109,8 +147,9 @@ abstract class MessageBase {
 	/**
 	 * Return duration To
 	 * @return int
+	 * @deprecated since version 1.1.0
 	 */
-	public function getDurationTo():int {
+	public function getDurationTo(): int {
 		return $this->durationTo;
 	}
 
@@ -118,11 +157,12 @@ abstract class MessageBase {
 	 * @param int $durationTo unix epoch, use 0 to unset
 	 *
 	 * @return $this
+	 * @deprecated since version 1.1.0
 	 */
 	public function setDurationTo(int $durationTo): self {
-		if($durationTo === 0) {
+		if ($durationTo === 0) {
 			$this->durationTo = 0;
-		} else if($durationTo > 0) {
+		} else if ($durationTo > 0) {
 			$this->durationTo = $durationTo;
 		}
 
@@ -134,7 +174,7 @@ abstract class MessageBase {
 	 *
 	 * @return bool
 	 */
-	abstract public function validate():bool;
+	abstract public function validate(): bool;
 
 
 	/**
@@ -148,7 +188,7 @@ abstract class MessageBase {
 	 * @param int $displayTime use 0 to unset
 	 */
 	public function setDisplayTime(int $displayTime): self {
-		if($displayTime === 0) {
+		if ($displayTime === 0) {
 			$this->displayTime = 0;
 		} else {
 			$this->displayTime = self::formatDisplayTime($displayTime);
@@ -164,7 +204,7 @@ abstract class MessageBase {
 	 *
 	 * @return $this
 	 */
-	public function addPage(PDFPage $page):self {
+	public function addPage(PDFPage $page): self {
 		$this->pages[] = $page;
 		return $this;
 	}
@@ -176,9 +216,9 @@ abstract class MessageBase {
 	 *
 	 * @return $this
 	 */
-	public function removePage(int $pageId):self {
-		for($i =0;$i<count($this->pages); ++$i) {
-			if($this->pages[$i]->pageId === $pageId) {
+	public function removePage(int $pageId): self {
+		for ($i = 0; $i < count($this->pages); ++$i) {
+			if ($this->pages[$i]->pageId === $pageId) {
 				array_splice($this->pages, $i, 1);
 				break;
 			}
@@ -198,7 +238,6 @@ abstract class MessageBase {
 	public static function formatDisplayTime(int $displayTime): int {
 		return min(max($displayTime, 4), 30);
 	}
-
 
 
 }

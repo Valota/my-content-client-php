@@ -245,6 +245,14 @@ class Client {
 
 		$hash = hash('sha256', $this->apiSecret . ($media ? md5_file($media) : '') . $title. $msg);
 
+
+		if($postMessage->scheduleIsSet) {
+			$post[] = [
+				'name' => 'schedule',
+				'contents' => json_encode($postMessage->schedule)
+			];
+		}
+
 		$durationFrom = $postMessage->getDurationFrom();
 		if($durationFrom >  0) {
 			$post[] = [
@@ -322,6 +330,14 @@ class Client {
 
 
 		$hash = hash('sha256', $this->apiSecret . $editMessage->messageId);
+
+		if($editMessage->scheduleIsSet) {
+			$post[] = [
+				'name' => 'schedule',
+				'contents' => json_encode($editMessage->schedule)
+			];
+		}
+
 
 		$durationFrom = $editMessage->getDurationFrom();
 		if($durationFrom >=  0) {

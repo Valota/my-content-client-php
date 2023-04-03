@@ -1,6 +1,7 @@
 {
   "name": "valota/my-content-client",
   "description": "A PHP client for Valotalive digital signage My Content API.",
+  "version": "1.1.0",
   "license": "MIT",
   "minimum-stability": "stable",
   "authors": [

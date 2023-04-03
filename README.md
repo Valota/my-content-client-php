@@ -31,8 +31,7 @@ $postMessage->setTitle('Title');
 $postMessage->setMessage('Message');
 $postMessage->setMedia('/path/to/image.or.video.jpg'); 
 $postMessage->setDisplayTime(10); //seconds 
-$postMessage->setDurationFrom(1609855473); //seconds since unix epoch 
-$postMessage->setDurationTo(1609865473); //seconds since unix epoch
+$postMessage->setSchedule([["from"=>1670615272, "to"=>1680615273]]);
 // All are optional, but post has to have at least one of title, message or media.
 $response = $myClient->post($postMessage);
 //$response will be id of the new message. e.g. 123
@@ -42,9 +41,8 @@ $editMessage = new Valota\MyContentAPI\EditMessage(174);
 $editMessage->setTitle('Edited title'); // empty string unsets
 $editMessage->setMessage('Edited message'); // empty string unsets
 $editMessage->setDisplayTime(0); // 0 unsets
-$editMessage->setDurationFrom(0); // 0 unsets
-$editMessage->setDurationTo(0); // 0 unsets
-// All are optional. Only changes the value that are set.
+$postMessage->setSchedule([]); // empty array unsets
+// All are optional. Only changes the values that are set.
 $response = $myClient->edit($editMessage);
 
 
